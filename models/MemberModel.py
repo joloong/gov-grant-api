@@ -4,7 +4,7 @@ from models import db
 class MemberModel(db.Model):
     __tablename__ = 'members'
 
-    id = db.Column(db.String(), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
     gender = db.Column(db.String(), nullable=False)
     marital_status = db.Column(db.String(), nullable=False)
@@ -27,8 +27,7 @@ class MemberModel(db.Model):
         ),
     )
 
-    def __init__(self, id, name, gender, marital_status, occupation_type, annual_income, dob):
-        self.id = id
+    def __init__(self, name, gender, marital_status, occupation_type, annual_income, dob):
         self.name = name
         self.gender = gender
         self.marital_status = marital_status
@@ -37,4 +36,15 @@ class MemberModel(db.Model):
         self.dob = dob
 
     def __repr__(self):
-        return "{id} {name}".format(id=self.id, name=self.name)
+        return f"{self.id} {self.name}"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "gender": self.gender,
+            "marital_status": self.marital_status,
+            "occupation_type": self.occupation_type,
+            "annual_income": self.annual_income,
+            "dob": self.dob
+        }
