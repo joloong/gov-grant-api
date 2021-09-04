@@ -19,7 +19,7 @@ def get_family(household_id):
         FamilyModel.household_id == HouseholdModel.id).all()
 
     family_json = []
-    for family, member, household in rows:
+    for _, member, household in rows:
         family_member_json = {
             "household_type": household.housing_type,
             "member_id": member.id,

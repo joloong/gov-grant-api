@@ -1,11 +1,11 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from datetime import date
+from datetime import datetime
 
 from config import Config
 from models import db, HouseholdModel, MemberModel, FamilyModel
-from services import HouseholdService, MemberService, FamilyService
+from services import HouseholdService, MemberService, FamilyService, BonusService
 from exceptions.MissingKeyError import MissingKeyError
 
 app = Flask(__name__)
@@ -88,7 +88,8 @@ def family_member_handler(household_id):
     marital_status = custom_dict_get(data, "marital_status")
     occupation_type = custom_dict_get(data, "occupation_type")
     annual_income = int(custom_dict_get(data, "annual_income"))
-    dob = date(1997, 11, 19)  # TODO
+    dob_string = custom_dict_get(data, "dob")
+    dob = datetime.strptime(dob_string, "%d-%m-%Y").date()
     member = MemberService.create_member(
         name, gender, marital_status, occupation_type, annual_income, dob)
 
@@ -103,6 +104,25 @@ def single_family_member_handler(household_id, member_id):
     # Task 7
     FamilyService.remove_family_member(household_id, member_id)
     return {"status": "success"}
+
+
+@app.route("/bonus/<bonus_type>", methods=["GET"])
+def bonus_handler(bonus_type):
+    # Task 5
+    if bonus_type == "student-encouragement-bonus":
+        families = BonusService.get_student_encouragement_bonus()
+    elif bonus_type == "family-togetherness-scheme":
+        families = BonusService.get_family_togetherness_scheme()
+    elif bonus_type == "elder-bonus":
+        families = BonusService.get_elder_bonus()
+    elif bonus_type == "baby-sunshine-grant":
+        families = BonusService.get_baby_sunshine_grant()
+    elif bonus_type == "yolo-gst-grant":
+        families = BonusService.get_yolo_gst_grant()
+    else:
+        return {"families": None}, 404
+
+    return {"families": families}
 
 
 if __name__ == '__main__':
