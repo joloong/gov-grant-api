@@ -1,5 +1,33 @@
 # Government Grant Disbursement API
 
+## Development
+
+Setting Up
+
+```
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+Starting Database
+
+```
+TBA
+```
+
+Creating .env in root folder
+
+```
+echo DATABASE_URI=<your-database-uri> > .env
+```
+
+Starting Up Server
+
+```
+FLASK_APP=app.py FLASK_ENV=development flask run
+```
+
 ## Endpoints
 
 1. Create Household
