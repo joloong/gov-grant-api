@@ -10,10 +10,11 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Starting Database
+Setting Up Database
 
 ```
-TBA
+flask db migrate
+flask db upgrade
 ```
 
 Creating .env in root folder
@@ -22,7 +23,7 @@ Creating .env in root folder
 echo DATABASE_URI=<your-database-uri> > .env
 ```
 
-Starting Up Server
+Starting Up Development Server
 
 ```
 FLASK_APP=app.py FLASK_ENV=development flask run
@@ -50,7 +51,7 @@ FLASK_APP=app.py FLASK_ENV=development flask run
 
    - `GET /bonus/<bonus_type>`
 
-6. Delete household
+6. Delete household (TODO)
 
    - `DELETE /household`
 
